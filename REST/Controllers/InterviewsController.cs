@@ -28,14 +28,9 @@ namespace REST.Controllers
             return CreatedAtAction(nameof(Get), new {id = interview.Id}, interview);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Interview interview)
+        [HttpPut]
+        public async Task<IActionResult> Put(Interview interview)
         {
-            if (id != interview.Id)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(interview).State = EntityState.Modified;
 
             try
@@ -44,7 +39,7 @@ namespace REST.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InterviewExist(id))
+                if (!InterviewExist(interview.Id))
                 {
                     return NotFound();
                 } else
